@@ -1,0 +1,62 @@
+version: '3'
+services:
+  backend:
+    build: 
+      context: ./backend
+    volumes:
+      - ./backend:/backend
+    environment:
+      - REDIS_HOST=redis
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+    ports:
+      - "5000:5000"
+    expose:
+      - 5000
+    depends_on:
+      - redis
+    restart: always
+
+  frontend:
+    build: 
+      context: ./frontend
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    restart: always
+
+  landingpage:
+    build: 
+      context: ./landingPage
+    volumes:
+      - ./landingPage:/landingPage
+    expose:
+      - 3000
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./cert.pem:/etc/nginx/cert.pem
+      - ./privkey.pem:/etc/nginx/privkey.pem
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+      - frontend
+    restart: always
+
+
+  redis:
+    image: redis:latest
+    expose:
+      - 6379
+    restart: always

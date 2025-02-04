@@ -1,0 +1,89 @@
+version: '3'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "backend", "service": "backend"}]'
+    volumes:
+      - ./backend:/backend
+    environment:
+      - REDIS_HOST=redis
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+    ports:
+      - "5000:5000"
+    expose:
+      - 5000
+    depends_on:
+      - redis
+    restart: always
+
+  frontend:
+    build: 
+      context: ./frontend
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "frontend", "service": "frontend"}]'
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    restart: always
+
+  landingpage:
+    build: 
+      context: ./landingPage
+    volumes:
+      - ./landingPage:/landingPage
+    expose:
+      - 3000
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "nginx", "service": "nginx"}]'
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./cert.pem:/etc/nginx/cert.pem
+      - ./privkey.pem:/etc/nginx/privkey.pem
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+      - frontend
+    restart: always
+
+  redis:
+    image: redis:latest
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "redis", "service": "redis"}]'
+    expose:
+      - 6379
+    restart: always
+
+  datadog:
+    build: datadog
+    pid: host
+    environment:
+     - DD_API_KEY=86ca18de8b44a8d31631ab3321a64308
+     - DD_SITE=us5.datadoghq.com
+     - DD_LOGS_ENABLED=true
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+     - /proc/:/host/proc/:ro
+     - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+     - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    depends_on:
+      - backend
+      - frontend
+      - nginx
+      - redis
+

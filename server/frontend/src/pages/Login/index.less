@@ -1,0 +1,62 @@
+.container {
+  display: flex;
+  height: 100%;
+
+
+  .left {
+    flex: 1;
+    position: absolute;
+    
+    .bg {
+      position: relative;
+      opacity: 0.3;
+      --tw-gradient-to: #9089fc var(--tw-gradient-to-position);
+      --tw-gradient-from: #ff80b5 var(--tw-gradient-from-position);
+      --tw-gradient-to: rgba(255, 128, 181, 0) var(--tw-gradient-to-position);
+      --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      background-image: linear-gradient(to top right, var(--tw-gradient-stops));
+      --tw-translate-x: -50%;
+      // transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+      aspect-ratio: 1155/678;
+      width: 72.1875rem;
+    }
+  }
+
+  .content {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+
+    :global {
+      .ant-pro-form-login-page-logo  {
+        height: 34px;
+      }
+
+      .ant-pro-form-login-page {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .ant-pro-form-login-page-notice  {
+        display: none;
+      }
+
+      .ant-pro-form-login-page-container  {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+      }
+    }
+  }
+
+  .sign-up {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 24px;
+    display: block;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
