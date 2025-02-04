@@ -1,0 +1,14 @@
+flask
+python-engineio==4.4.1
+python-socketio[client]==5.8.0
+argparse
+requests
+invisible_watermark
+transformers
+accelerate
+safetensors
+diffusers
+scipy
+torch
+einops
+omegaconf

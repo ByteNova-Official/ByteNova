@@ -1,0 +1,33 @@
+from model_repo.model_invoke import invoke # This will be replaced
+from flask import Flask, request
+import requests, base64, json
+import argparse
+
+app = Flask(__name__)
+
+@app.route('/invoke', methods=['POST'])
+def generate():
+    rj = request.json
+    text = rj['input']
+    result = invoke(text)
+    
+    if 's3_upload_fields' not in rj:
+        return result
+
+    s3_upload_fields = json.loads(base64.b64decode(rj['s3_upload_fields'].encode()).decode())
+    response = requests.post(s3_upload_fields['url'], data=s3_upload_fields['fields'], files={'file': open('generated_image.png', 'rb')})
+    # Check if the upload was successful
+    if response.status_code >= 300:
+        return f'Upload failed with status code {response.status_code}, response: {response.text}'
+    else:
+        return "https://cdn.clustro.ai/" + s3_upload_fields['fields']['key']
+
+@app.route('/ping', methods=['GET'])
+def ping():
+    return "OK", 200
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Flask app')
+    parser.add_argument('--port', type=int, default=8000, help='Port to run the app on')
+    args = parser.parse_args()
+    app.run(host='0.0.0.0', port=args.port)
