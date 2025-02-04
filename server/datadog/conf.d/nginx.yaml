@@ -1,0 +1,5 @@
+init_config:
+
+instances:
+    - host: nginx
+      port: 443

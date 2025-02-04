@@ -1,0 +1,5 @@
+init_config:
+
+instances:
+    - host: redis
+      port: 6379
