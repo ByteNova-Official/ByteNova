@@ -1,0 +1,23 @@
+.text-list {
+  width: 1600px;
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+@keyframes rowup {
+  0% {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+  }
+  100% {
+      -webkit-transform: translate3d(-300px, 0, 0);
+      transform: translate3d(-300px, 0, 0);
+  }
+}
+
+.rowup {
+  -webkit-animation: 10s rowup linear infinite normal;
+  animation: 10s rowup linear infinite normal;
+  position: relative;
+}

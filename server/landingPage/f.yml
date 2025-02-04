@@ -1,0 +1,27 @@
+service:
+  name: serverless-ssr
+provider:
+  name: aliyun
+  memorySize: 2048
+  timeout: 20
+  initTimeout: 20
+  runtime: nodejs12
+  concurrency: 10
+  region: ap-southeast-1
+
+custom: # 发布后自动生成测试域名
+  customDomain:
+    domainName: auto
+
+package:
+  include:
+    - build
+    - public
+  exclude:
+    - package-lock.json
+  artifact: code.zip
+
+deployType:
+  type: koa                    ## 部署的应用类型
+  version: 3.0.0
+  name: ssr
