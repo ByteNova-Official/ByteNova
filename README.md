@@ -1,4 +1,4 @@
-# Clustro AI
+# ClustroAI
 
 ## Table of Contents
 
