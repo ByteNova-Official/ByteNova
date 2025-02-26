@@ -9,11 +9,11 @@
 * [Scheduled Tasks](#Scheduled-Tasks)
 
 ## Official Website
-[clustro.ai](https://www.clustro.ai/)
+[clustro.ai](https://clustroai.com/)
 
 [console.clustro.ai](https://console.clustro.ai/)
 
-[user docs](https://docs.clustro.ai/)
+[user docs](https://docs.clustroai.com/)
 
 
 ## Quick Start
