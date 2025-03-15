@@ -1,4 +1,4 @@
-# ClustroAI
+# ByteNovaAI
 
 ## Table of Contents
 
